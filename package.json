@@ -1,0 +1,17 @@
+{
+  "name": "whar",
+  "module": "source/Bot.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/signale": "^1.4.7",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "signale": "^1.4.0"
+  }
+}
