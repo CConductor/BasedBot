@@ -537,5 +537,139 @@
       {"stat": "Relictic Volùspa", "odds": 1500000000},
       {"stat": "Lifender", "odds": 5000000000}
     ]
+  },
+  {
+    "name": "Awakened",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Enchantment",
+      "amount": 7e39
+    },
+    "drops": [
+      {"stat": "Silicon", "odds": 2},
+      {"stat": "Sulfur", "odds": 6},
+      {"stat": "Chlorine", "odds": 33},
+      {"stat": "Bromine", "odds": 200},
+      {"stat": "Technetium", "odds": 8000},
+      {"stat": "Scandium", "odds": 20000},
+      {"stat": "Rhodimite", "odds": 80000},
+      {"stat": "Vanadium", "odds": 250000},
+      {"stat": "Selenium", "odds": 575000},
+      {"stat": "Yttrium", "odds": 925000},
+      {"stat": "Polonium", "odds": 1750000},
+      {"stat": "Krypton", "odds": 7500000},
+      {"stat": "Aeglestone", "odds": 30000000}
+    ]
+  },
+  {
+    "name": "Awakened",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Enchantment",
+      "amount": 7e39
+    },
+    "drops": [
+      {"stat": "Silicon", "odds": 2},
+      {"stat": "Sulfur", "odds": 6},
+      {"stat": "Chlorine", "odds": 33},
+      {"stat": "Bromine", "odds": 200},
+      {"stat": "Technetium", "odds": 8000},
+      {"stat": "Scandium", "odds": 20000},
+      {"stat": "Rhodimite", "odds": 80000},
+      {"stat": "Vanadium", "odds": 250000},
+      {"stat": "Selenium", "odds": 575000},
+      {"stat": "Yttrium", "odds": 925000},
+      {"stat": "Polonium", "odds": 1750000},
+      {"stat": "Krypton", "odds": 7500000},
+      {"stat": "Aeglestone", "odds": 30000000}
+    ]
+  },
+  {
+    "name": "Artificial",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Enchantment",
+      "amount": 70000000000
+    },
+    "drops": [
+      {"stat": "Bit", "odds": 2},
+      {"stat": "Pixel", "odds": 5},
+      {"stat": "Aluminum", "odds": 20},
+      {"stat": "Nickel", "odds": 80},
+      {"stat": "Zinc", "odds": 133},
+      {"stat": "Electrolite", "odds": 2000},
+      {"stat": "Livermorium", "odds": 45000},
+      {"stat": "Gygabittium", "odds": 162500},
+      {"stat": "Pteracorite", "odds": 650000},
+      {"stat": "Oganneson", "odds": 2250000},
+      {"stat": "Metactinium", "odds": 7500000},
+      {"stat": "Apatite", "odds": 26000000},
+      {"stat": "Unbinilium", "odds": 125000000}
+    ]
+  },
+  {
+    "name": "Magical",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Spell",
+      "amount": 5e21
+    },
+    "drops": [
+      {"stat": "Arctite", "odds": 3},
+      {"stat": "Cuprite", "odds": 7},
+      {"stat": "Musgravite", "odds": 50},
+      {"stat": "Kainosite", "odds": 200},
+      {"stat": "Neodymium", "odds": 1333},
+      {"stat": "Beryllium", "odds": 80000},
+      {"stat": "Veragmite", "odds": 350000},
+      {"stat": "Quamite", "odds": 888888},
+      {"stat": "Astralyte", "odds": 3400000},
+      {"stat": "Unobtainium", "odds": 15000000},
+      {"stat": "Vibranium", "odds": 47500000},
+      {"stat": "Stygium", "odds": 100000000},
+      {"stat": "Kyber Crystal", "odds": 2500000000}
+    ]
+  },
+  {
+    "name": "Elemental",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Mana",
+      "amount": 2e35
+    },
+    "drops": [
+      {"stat": "Watercrystal", "odds": 2},
+      {"stat": "Sandstone", "odds": 8},
+      {"stat": "Firecrystal", "odds": 33},
+      {"stat": "Leafstone", "odds": 200},
+      {"stat": "Windirus", "odds": 3333},
+      {"stat": "Rockarnium", "odds": 30000},
+      {"stat": "Drakan", "odds": 150000},
+      {"stat": "Chromatite", "odds": 500000},
+      {"stat": "Sognus", "odds": 3000000},
+      {"stat": "Ambrosia", "odds": 15000000},
+      {"stat": "Quintessence", "odds": 77777777}
+    ]
+  },
+  {
+    "name": "Galactic",
+    "location": "Afterlife Domain",
+    "price": {
+      "stat": "Mana",
+      "amount": 1000000
+    },
+    "drops": [
+      {"stat": "Eveslogite", "odds": 3},
+      {"stat": "Spacelite", "odds": 14},
+      {"stat": "Astrolite", "odds": 100},
+      {"stat": "Cometium", "odds": 400},
+      {"stat": "Planetium", "odds": 20000},
+      {"stat": "Mercury", "odds": 75000},
+      {"stat": "Saturnite", "odds": 225000},
+      {"stat": "Constellar", "odds": 755000},
+      {"stat": "Neutronium", "odds": 2500000},
+      {"stat": "Magnetar", "odds": 8000000},
+      {"stat": "Uzoburnus", "odds": 18000000}
+    ]
   }
 ]
