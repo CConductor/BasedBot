@@ -36,11 +36,11 @@ export default class CommandMessage {
     return Object.hasOwn(this.flags, name)
   }
 
-  public reply(options: string | MessagePayload | MessageReplyOptions): Promise<Message<boolean>> {
+  public async reply(options: string | MessagePayload | MessageReplyOptions): Promise<Message<boolean>> {
     return this.message.reply(options)
-  }
+  } 
 
-  public replyWithEmbed(embed: Embed | Array<Embed>): Promise<Message<boolean>> {
-    return this.reply({ embeds: Array.isArray(embed) ? embed : [embed] })
+  public async replyWithEmbed(embed: Embed | Array<Embed>): Promise<Message<boolean>> {
+    return this.message.reply({ embeds: Array.isArray(embed) ? embed : [embed] })
   }
 }
