@@ -2,7 +2,8 @@ import { Client, Message } from "discord.js"
 
 import { CommandList } from "../Command"
 import { BotMessage, MessagePrefix } from "../modules/BotMessage"
-import { type CommandMessage, DefaultFlagValue } from "../modules/CommandMessage"
+import { DEFAULT_FLAG_VALUE } from "../modules/CommandMessage"
+import CommandMessage from "../modules/CommandMessage"
 import * as config from "../../config.json"
 
 export default (client: Client) => {
@@ -17,46 +18,42 @@ export default (client: Client) => {
 const parseCommand = (message: Message): CommandMessage => {
   const parts = message.content.trim().match(/(?:[^\s"]+|"[^"]*")+/g) || []
 
-  const commandMessage: CommandMessage = {
+  const commandMessage = CommandMessage.create({
     name: parts[0]!.slice(1),
     message,
     args: [],
     flags: {}
-  }
+  })
 
   const parseFlag = (part: string) => {
     const flagParts = part.slice(2).split("=")
     const flagName = flagParts[0]
+    const flagValue = flagParts.slice(1).join("=").toLowerCase()
 
     if (flagParts.length === 1) {
-      commandMessage.flags[flagName] = DefaultFlagValue
+      commandMessage.flags[flagName] = DEFAULT_FLAG_VALUE
       return
     }
-
-    const flagValue = flagParts.slice(1).join("=")
 
     if (!isNaN(parseFloat(flagValue))) {
       commandMessage.flags[flagName] = parseFloat(flagValue)
       return
     }
 
-    if (["true", "false"].includes(flagValue.toLowerCase())) {
-      return new RegExp("true").test(flagValue.toLowerCase())
+    if (["true", "false"].includes(flagValue)) {
+      return /true/.test(flagValue)
     }
 
     commandMessage.flags[flagName] = flagValue
   }
 
   for (const part of parts.slice(1)) {
+    const partIsInQuotes = /^".*"$/.test(part)
+    commandMessage.args.push(partIsInQuotes ? part.slice(1, -1) : part)
+
     if (part.startsWith("--")) {
       parseFlag(part)
       continue
-    }
-
-    if (part.startsWith('"') && part.endsWith('"')) {
-      commandMessage.args.push(part.slice(1, -1))
-    } else {
-      commandMessage.args.push(part)
     }
   }
 
@@ -65,12 +62,8 @@ const parseCommand = (message: Message): CommandMessage => {
 
 const handleCommand = async (client: Client, message: Message): Promise<void> => {
   const targetCommand = message.content.split(/\s+/)[0].slice(1)
-
   const command = CommandList.find((command) => command.name === targetCommand || command.settings?.aliases?.includes(targetCommand))
-
-  const sendError = (text: string) => {
-    message.reply(new BotMessage(MessagePrefix.ERROR, text).toString())
-  }
+  const sendError = (text: string) => message.reply(new BotMessage(MessagePrefix.ERROR, text).toString())
 
   if (!command) {
     sendError("This command doesn't exist")
