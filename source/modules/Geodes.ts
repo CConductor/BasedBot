@@ -1,12 +1,11 @@
-import * as GeodeData from "../../geodes.json" assert { type: "json" }
-
-export const GeodeList = GeodeData as ReadonlyArray<Geode>
+import GeodeList from "../GeodeList"
 
 export interface Geode {
   name: string
   location: string
   price: GeodePrice
-  drops: Array<GeodeDrop>
+  // oh man
+  drops: ReadonlyArray<GeodeDrop>
 }
 
 export interface GeodePrice {
@@ -21,5 +20,5 @@ export interface GeodeDrop {
 
 export type GeodeName = typeof GeodeList[number]["name"]
 
-export const getGeodeNames = (): Array<GeodeName> => GeodeList.map((geode) => geode.name)
-export const getGeodeByName = (name: GeodeName): Geode | undefined => GeodeList.find((geode) => geode.name === name)
+export const getGeodeNames = () => GeodeList.map((geode) => geode.name)
+export const getGeodeByName = (name: GeodeName | (string & {})): Geode | undefined => GeodeList.find((geode) => geode.name === name)

@@ -1,4 +1,4 @@
-[
+export default [
   {
     "name": "Mint",
     "location": "Minty Grooves",
@@ -346,7 +346,7 @@
   },
   {
     "name": "Cosmic",
-    "location": "Mechanical Room",
+    "location": "MECHANICAL ROOM",
     "price": {
       "stat": "C0RR8PT10N",
       "amount": 100
@@ -649,4 +649,4 @@
       {"stat": "Uzoburnus", "odds": 18000000}
     ]
   }
-]
+] as const

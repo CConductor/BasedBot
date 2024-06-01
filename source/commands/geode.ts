@@ -50,16 +50,16 @@ class GeodeCommand extends Command {
       const stat = Links.getWikiArticle(drop.stat)
       const odds = NumberFormat(drop.odds, longNumbers)
 
-      return `\\- ${stat} \`1/${odds}\``
+      return `\`[1/${odds}]\` ${stat}`
     })
 
     return new Embed()
-      .setDescriptionTitle(geode.name.concat(" Geode Button"))
       .setDescription([
         `**Price**: ${geodePrice}`,
         `**Location:** ${geode.location}`,
-        `**Drops:**\n${dropList}`
+        `**Drops:**\n${dropList.join("\n")}`
       ])
+      .setDescriptionTitle(geode.name.concat(" Geode Button"))
   }
 }
 
