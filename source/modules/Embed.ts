@@ -10,17 +10,13 @@ export class Embed extends EmbedBuilder {
   }
 
   public setDescriptionTitle(title: string): this {
-    this.setDescription([
+    return this.setDescription([
       `# ${title}\n`,
       this.data.description ?? ""
     ])
-
-    return this
   }
 
   public setDescription(description: string | Array<string> | null): this {
-    this.setDescription(Array.isArray(description) ? description.join("\n") : description)
-
-    return this
+    return this.setDescription(Array.isArray(description) ? description.join("\n") : description)
   }
 }
