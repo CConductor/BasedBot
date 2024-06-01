@@ -19,5 +19,8 @@ const setupCommands = async () => {
   const commandFolder = path.join(__dirname, "..", "commands")
   const commandFiles = readdirSync(commandFolder).filter((fileName) => fileName.endsWith(".ts"))
 
-  commandFiles.forEach(async (file) => await import(path.join(commandFolder, file)))
+  for (const file of commandFiles) {
+    const filePath = path.join(commandFolder, file)
+    await import(filePath)
+  }
 }
