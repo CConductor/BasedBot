@@ -16,6 +16,7 @@ export default (client: Client) => {
 }
 
 const parseCommand = (message: Message): CommandMessage => {
+  // Uhm ignore this                               V
   const parts = message.content.trim().match(/(?:[^\s"]+|"[^"]*")+/g) || []
 
   const commandMessage = CommandMessage.create({
