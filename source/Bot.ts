@@ -23,20 +23,9 @@ const client = new Client({
 const setupEvents = async (): Promise<number> => {
   const eventFolder = path.join(__dirname, "events")
   const eventFiles = readdirSync(eventFolder).filter((fileName) => fileName.endsWith(".ts"))
-  let eventCount = 0
 
-  eventFiles.forEach(async (file) => {
-    const filePath = path.join(eventFolder, file)
-
-    await import(filePath)
-      .then((event) => {
-        event.default(client)
-        eventCount++
-      })
-      .catch(Logger.error)
-  })
-
-  return eventCount
+  eventFiles.forEach(async (file) => await import(path.join(eventFolder, file)).then((event) => event.default(client)))
+  return eventFiles.length
 }
 
 await setupEvents()
