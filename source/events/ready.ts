@@ -1,9 +1,9 @@
-import { readdirSync } from "node:fs"
 import { Client } from "discord.js"
+import { readdirSync } from "node:fs"
 import * as path from "path"
 
-import Logger from "../Logger"
 import { CommandList } from "../Command"
+import Logger from "../Logger"
 
 export default (client: Client) => {
   client.once("ready", async () => {
@@ -17,11 +17,7 @@ export default (client: Client) => {
 
 const setupCommands = async () => {
   const commandFolder = path.join(__dirname, "..", "commands")
-  const commandFiles = readdirSync(commandFolder)
-    .filter(fileName => fileName.endsWith(".ts"))
+  const commandFiles = readdirSync(commandFolder).filter((fileName) => fileName.endsWith(".ts"))
 
-  for (const file of commandFiles) {
-    const filePath = path.join(commandFolder, file)
-    await import(filePath)
-  }
+  commandFiles.forEach(async (file) => await import(path.join(commandFolder, file)))
 }
