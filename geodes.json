@@ -562,29 +562,6 @@
     ]
   },
   {
-    "name": "Awakened",
-    "location": "Afterlife Domain",
-    "price": {
-      "stat": "Enchantment",
-      "amount": 7e39
-    },
-    "drops": [
-      {"stat": "Silicon", "odds": 2},
-      {"stat": "Sulfur", "odds": 6},
-      {"stat": "Chlorine", "odds": 33},
-      {"stat": "Bromine", "odds": 200},
-      {"stat": "Technetium", "odds": 8000},
-      {"stat": "Scandium", "odds": 20000},
-      {"stat": "Rhodimite", "odds": 80000},
-      {"stat": "Vanadium", "odds": 250000},
-      {"stat": "Selenium", "odds": 575000},
-      {"stat": "Yttrium", "odds": 925000},
-      {"stat": "Polonium", "odds": 1750000},
-      {"stat": "Krypton", "odds": 7500000},
-      {"stat": "Aeglestone", "odds": 30000000}
-    ]
-  },
-  {
     "name": "Artificial",
     "location": "Afterlife Domain",
     "price": {
