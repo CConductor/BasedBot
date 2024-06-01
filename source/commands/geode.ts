@@ -1,32 +1,17 @@
-import { EmbedBuilder } from "discord.js"
 import type { Client } from "discord.js"
 
-import { BotMessage } from "../modules/BotMessage"
+import { BotMessage, MessagePrefix as Prefix } from "../modules/BotMessage"
+import { Embed } from "../modules/Embed"
 import { Command } from "../Command"
-import type { CommandMessage } from "../modules/CommandMessage"
-import Geodes from "../../geodes.json"
+import type { Geode, GeodeDrop } from "../modules/Geodes"
+import CommandMessage from "../modules/CommandMessage"
 import NumberFormat from "../modules/NumberFormat"
-import * as config from "../../config.json"
 
-interface Geode {
-  name: string
-  location: string
-  price: GeodePrice
-  drops: Array<GeodeDrop>
-}
+import * as Links from "../modules/Links"
+import * as Geodes from "../modules/Geodes"
 
-interface GeodePrice {
-  stat: string
-  amount: number
-}
-
-interface GeodeDrop {
-  stat: string
-  odds: number
-}
-
-const BASE_WIKI_LINK = "https://button-simulatored.fandom.com/wiki/"
-const INVALID_GEODE_NAME = "Invalid geode name, did you spell it correctly? Example usage: `$geode Stone`, `$geode \"White Gems\"` (note that you don\'t type \"Geode\")"
+const INVALID_GEODE_NAME =
+  'Invalid geode name, did you spell it correctly? Example usage: `$geode Stone`, `$geode "White Gems"` (note that you don\'t type "Geode")'
 
 class GeodeCommand extends Command {
   constructor() {
@@ -34,55 +19,47 @@ class GeodeCommand extends Command {
   }
 
   public override async run(_: Client, commandMessage: CommandMessage) {
-    if (Object.hasOwn(commandMessage.flags, "list")) {
-      const nameList = `\\- ${this.getGeodeNames()
-        .map((name) => name.concat(" Geode"))
-        .join("\n\\- ")}`
-      const message = BotMessage.info(`Here's the available geode list:\n${nameList}`)
+    if (commandMessage.hasFlag("list")) {
+      const nameList = Geodes.getGeodeNames().join(" Geode, ")
+      const message = BotMessage.create(Prefix.INFO, `**Here's the available geode list:** ${nameList}`)
 
-      await commandMessage.message.reply(message)
+      await commandMessage.reply(message)
       return
     }
 
     if (commandMessage.args.length !== 1) {
-      await commandMessage.message.reply(BotMessage.error("Incorrect argument count, expected 1"))
+      await commandMessage.reply(BotMessage.create(Prefix.ERROR, "Incorrect argument count, expected 1"))
       return
     }
 
     const geodeName = commandMessage.args[0]
-    const longNumbers = Object.hasOwn(commandMessage.flags, "longNumbers")
+    const longNumbers = commandMessage.hasFlag("long-numbers")
+    const targetGeode = Geodes.getGeodeByName(geodeName)
 
-    if (!this.getGeodeNames().includes(geodeName)) {
-      await commandMessage.message.reply(BotMessage.error(INVALID_GEODE_NAME))
+    if (!targetGeode) {
+      await commandMessage.reply(BotMessage.create(Prefix.ERROR, INVALID_GEODE_NAME))
       return
     }
 
-    const targetGeode: Geode = Geodes.find((geode) => geode.name === geodeName)!
-    await commandMessage.message.reply({ embeds: [this.getGeodeEmbed(targetGeode, longNumbers)] })
+    await commandMessage.replyWithEmbed(this.getGeodeEmbed(targetGeode, longNumbers))
   }
 
-  private getGeodeNames(): Array<string> {
-    return Geodes.map((geode) => geode.name)
-  }
+  private getGeodeEmbed(geode: Geode, longNumbers: boolean): Embed {
+    const geodePrice = `${NumberFormat(geode.price.amount, longNumbers)} ${Links.getWikiArticle(geode.price.stat)}`
+    const dropList = geode.drops.map((drop: GeodeDrop) => {
+      const stat = Links.getWikiArticle(drop.stat)
+      const odds = NumberFormat(drop.odds, longNumbers)
 
-  private getWikiArticle(name: string): string {
-    return `[${name}](<${BASE_WIKI_LINK.concat(name.replace(/ +/g, "_"))}>)`
-  }
+      return `\\- ${stat} \`1/${odds}\``
+    })
 
-  private getGeodeEmbed(geode: Geode, longNumbers: boolean): EmbedBuilder {
-    const dropList = `- ${geode.drops
-      .map((drop) => `${this.getWikiArticle(drop.stat)} \`(1/${NumberFormat(drop.odds, longNumbers)})\``)
-      .join("\n- ")}`
-    const descriptionLines = [
-      `# ${geode.name.concat(" Geode Button")}`,
-      `**Price**: ${NumberFormat(geode.price.amount, longNumbers)} ${this.getWikiArticle(geode.price.stat)}`,
-      `**Location:** ${geode.location}`,
-      `**Drops:**\n${dropList}`
-    ]
-
-    return new EmbedBuilder()
-      .setDescription(descriptionLines.join("\n"))
-      .setColor(config.embedColor)
+    return new Embed()
+      .setDescriptionTitle(geode.name.concat(" Geode Button"))
+      .setDescription([
+        `**Price**: ${geodePrice}`,
+        `**Location:** ${geode.location}`,
+        `**Drops:**\n${dropList}`
+      ])
   }
 }
 
