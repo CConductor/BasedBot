@@ -20,19 +20,7 @@ export class BotMessage {
     return `${this.prefix} ${this.message}`
   }
 
-  static createMessage(prefix: MessagePrefix, message: string): string {
+  static create(prefix: MessagePrefix, message: string): string {
     return new BotMessage(prefix, message).toString()
-  }
-
-  static info(message: string): string {
-    return new BotMessage(MessagePrefix.INFO, message).toString()
-  }
-
-  static success(message: string): string {
-    return new BotMessage(MessagePrefix.SUCCESS, message).toString()
-  }
-
-  static error(message: string): string {
-    return new BotMessage(MessagePrefix.ERROR, message).toString()
   }
 }
