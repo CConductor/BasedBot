@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from "discord.js"
+import type { ClientEvents } from "discord.js"
 import { readdirSync } from "node:fs"
 import * as dotenv from "dotenv"
 import * as path from "path"
@@ -20,16 +21,19 @@ const client = new Client({
 })
 
 // Copied from thje command handler lolll
-const setupEvents = async (): Promise<number> => {
+const setupEvents = (events: Array<keyof ClientEvents>): number => {
   const eventFolder = path.join(__dirname, "events")
-  const eventFiles = readdirSync(eventFolder).filter((fileName) => fileName.endsWith(".ts"))
+  const eventFiles = readdirSync(eventFolder)
 
-  eventFiles.forEach(async (file) => await import(path.join(eventFolder, file)).then((event) => event.default(client)))
-  return eventFiles.length
+  events.filter((event) => eventFiles.find((fileName) => fileName === `${event}.ts`))
+  eventFiles.forEach((eventFile) => {
+    import(path.join(eventFolder, eventFile)).then((event) => event.default(client))
+  });
+
+  return events.length
 }
 
-await setupEvents()
-  .then((eventCount) => Logger.info(`Listening to ${eventCount} events!`))
-  .catch(Logger.error)
+const eventAmount = setupEvents(["ready", "messageCreate"])
+Logger.info(`Listening to ${eventAmount} events!`)
 
 client.login(process.env.DISCORD_TOKEN)
