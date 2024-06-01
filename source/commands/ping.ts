@@ -2,7 +2,7 @@ import type { Client } from "discord.js"
 
 import { BotMessage, MessagePrefix } from "../modules/BotMessage"
 import { Command } from "../Command"
-import type { CommandMessage } from "../modules/CommandMessage"
+import CommandMessage from "../modules/CommandMessage"
 
 class PingCommand extends Command {
   constructor() {
@@ -10,8 +10,8 @@ class PingCommand extends Command {
   }
 
   public override async run(client: Client, commandMessage: CommandMessage) {
-    const reply = await commandMessage.message.reply({
-      content: BotMessage.createMessage(MessagePrefix.PROCESS, "Pinging...")
+    const reply = await commandMessage.reply({
+      content: BotMessage.create(MessagePrefix.PROCESS, "Pinging...")
     })
 
     const webSocketPing = client.ws.ping
@@ -19,8 +19,8 @@ class PingCommand extends Command {
 
     await reply.edit({
       content: [
-        BotMessage.createMessage(MessagePrefix.INFO, `WebSocket Ping: ${webSocketPing}ms`).toString(),
-        BotMessage.createMessage(MessagePrefix.INFO, `API/Client Ping: ${apiPing}ms`).toString()
+        BotMessage.create(MessagePrefix.INFO, `WebSocket Ping: ${webSocketPing}ms`),
+        BotMessage.create(MessagePrefix.INFO, `API/Client Ping: ${apiPing}ms`)
       ].join("\n")
     })
   }
