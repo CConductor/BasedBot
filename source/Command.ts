@@ -1,7 +1,7 @@
 import { Client } from "discord.js"
 import type { BaseApplicationCommandData, PermissionFlagsBits } from "discord.js"
 
-import type { CommandMessage } from "./modules/CommandMessage"
+import CommandMessage from "./modules/CommandMessage"
 
 export const CommandList: Array<Command> = []
 
