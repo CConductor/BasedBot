@@ -28,7 +28,7 @@ const setupEvents = (events: Array<keyof ClientEvents>): number => {
   events.filter((event) => eventFiles.find((fileName) => fileName === `${event}.ts`))
   eventFiles.forEach((eventFile) => {
     import(path.join(eventFolder, eventFile)).then((event) => event.default(client))
-  });
+  })
 
   return events.length
 }
