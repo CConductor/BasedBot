@@ -54,12 +54,12 @@ class GeodeCommand extends Command {
     })
 
     return new Embed()
+      .setDescriptionTitle(geode.name.concat(" Geode Button"))
       .setDescription([
         `**Price**: ${geodePrice}`,
         `**Location:** ${geode.location}`,
         `**Drops:**\n${dropList.join("\n")}`
       ])
-      .setDescriptionTitle(geode.name.concat(" Geode Button"))
   }
 }
 

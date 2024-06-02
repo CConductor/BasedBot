@@ -18,7 +18,10 @@ export class Embed extends EmbedBuilder {
       description = description.join("\n")
     }
 
-    this.data.description = description ?? ""
+    const currentDescription = this.data.description ?? ""
+    const titleLine = currentDescription.split("\n").find((line) => line.startsWith("# "))
+
+    this.data.description = (titleLine ? titleLine.concat("\n") : "") + (description ?? "")
     return this
   }
 }

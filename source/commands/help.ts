@@ -12,8 +12,8 @@ class HelpCommand extends Command {
   public override async run(client: Client, commandMessage: CommandMessage) {
     const embedDescriptionLines = CommandList.map((command) => `- \`${command.name}\` - ${command.description}`)
     const embed = new Embed()
-      .setDescription(embedDescriptionLines)
       .setDescriptionTitle(`${client.user!.username}'s command list`)
+      .setDescription(embedDescriptionLines)
 
     await commandMessage.replyWithEmbed(embed)
   }
