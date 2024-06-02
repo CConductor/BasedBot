@@ -10,19 +10,15 @@ class PingCommand extends Command {
   }
 
   public override async run(client: Client, commandMessage: CommandMessage) {
-    const reply = await commandMessage.reply({
-      content: BotMessage.create(MessagePrefix.PROCESS, "Pinging...")
-    })
+    const reply = await commandMessage.reply(BotMessage.create(MessagePrefix.PROCESS, "Pinging..."))
 
     const webSocketPing = client.ws.ping
     const apiPing = reply.createdTimestamp - commandMessage.message.createdTimestamp
 
-    await reply.edit({
-      content: [
-        BotMessage.create(MessagePrefix.INFO, `WebSocket Ping: ${webSocketPing}ms`),
-        BotMessage.create(MessagePrefix.INFO, `API/Client Ping: ${apiPing}ms`)
-      ].join("\n")
-    })
+    await reply.edit([
+      BotMessage.create(MessagePrefix.INFO, `WebSocket Ping: ${webSocketPing}ms`),
+      BotMessage.create(MessagePrefix.INFO, `API/Client Ping: ${apiPing}ms`)
+    ].join("\n"))
   }
 }
 
