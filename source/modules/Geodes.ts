@@ -1,4 +1,4 @@
-import GeodeList from "../GeodeList"
+import GeodeList from "../data/GeodeList"
 
 export interface Geode {
   name: string
