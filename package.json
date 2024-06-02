@@ -1,5 +1,6 @@
 {
-  "name": "whar",
+  "name": "based-bot",
+  "private": true,
   "module": "source/Bot.ts",
   "type": "module",
   "devDependencies": {
