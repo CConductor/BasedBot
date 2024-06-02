@@ -10,9 +10,6 @@ import NumberFormat from "../modules/NumberFormat"
 import * as Links from "../modules/Links"
 import * as Geodes from "../modules/Geodes"
 
-const INVALID_GEODE_NAME =
-  'Invalid geode name, did you spell it correctly? Example usage: `$geode Stone`, `$geode "White Gems"` (note that you don\'t type "Geode")'
-
 class GeodeCommand extends Command {
   constructor() {
     super("geode", "Shows the drops from a geode")
@@ -37,7 +34,7 @@ class GeodeCommand extends Command {
     const targetGeode = Geodes.getGeodeByName(geodeName)
 
     if (!targetGeode) {
-      await commandMessage.reply(BotMessage.create(Prefix.ERROR, INVALID_GEODE_NAME))
+      await commandMessage.reply(BotMessage.create(Prefix.ERROR, "Invalid geode name, run `$geode --list` for a list of geodes."))
       return
     }
 
@@ -55,11 +52,7 @@ class GeodeCommand extends Command {
 
     return new Embed()
       .setDescriptionTitle(geode.name.concat(" Geode Button"))
-      .setDescription([
-        `**Price**: ${geodePrice}`,
-        `**Location:** ${geode.location}`,
-        `**Drops:**\n${dropList.join("\n")}`
-      ])
+      .setDescription([`**Price**: ${geodePrice}`, `**Location:** ${geode.location}`, `**Drops:**\n${dropList.join("\n")}`])
   }
 }
 
