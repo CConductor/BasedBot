@@ -30,7 +30,6 @@ class GeodeCommand extends Command {
     }
 
     const geodeName = commandMessage.args[0]
-    const longNumbers = commandMessage.hasFlag("long-numbers")
     const targetGeode = Geodes.getGeodeByName(geodeName)
 
     if (!targetGeode) {
@@ -38,7 +37,7 @@ class GeodeCommand extends Command {
       return
     }
 
-    await commandMessage.replyWithEmbed(this.getGeodeEmbed(targetGeode, longNumbers))
+    await commandMessage.replyWithEmbed(this.getGeodeEmbed(targetGeode, commandMessage.hasFlag("long-numbers")))
   }
 
   private getGeodeEmbed(geode: Geode, longNumbers: boolean): Embed {
