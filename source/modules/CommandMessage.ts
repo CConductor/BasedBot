@@ -15,6 +15,47 @@ interface CommandMessageObject {
   message: Message
 }
 
+const stringIsInQuotes = (text: string) => /^".*"$/.test(text)
+
+const parseFlag = (part: string, flags: Flags) => {
+  const [flagName, ...flagValueParts] = part.slice(2).split("=")
+  const flagValue = flagValueParts.join("=").toLowerCase()
+
+  const parsedValue = Number(flagValue)
+
+  if (flagValueParts.length === 0) {
+    flags[flagName] = DEFAULT_FLAG_VALUE
+  } else if (!Number.isNaN(parsedValue)) {
+    flags[flagName] = parsedValue
+  } else if (flagValue === "true" || flagValue === "false") {
+    flags[flagName] = flagValue === "true"
+  } else {
+    flags[flagName] = flagValue
+  }
+}
+
+export const parseCommand = (message: Message) => {
+  const parts = message.content.trim().match(/(?:[^\s"]+|"[^"]*")+/g) || []
+
+  const commandMessage = CommandMessage.create({
+    name: parts[0]!.slice(1),
+    message,
+    args: [],
+    flags: {}
+  })
+
+  parts.slice(1).forEach((part) => {
+    if (part.startsWith("--")) {
+      parseFlag(part, commandMessage.flags)
+      return
+    }
+
+    commandMessage.args.push(stringIsInQuotes(part) ? part.slice(-1, 1) : part)
+  })
+
+  return commandMessage
+}
+
 export default class CommandMessage {
   public name: string
   public args: Array<string>

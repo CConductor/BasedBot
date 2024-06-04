@@ -2,8 +2,7 @@ import { Client, Message } from "discord.js"
 
 import { CommandList } from "../Command"
 import { BotMessage, MessagePrefix } from "../modules/BotMessage"
-import { DEFAULT_FLAG_VALUE } from "../modules/CommandMessage"
-import CommandMessage from "../modules/CommandMessage"
+import { parseCommand } from "../modules/CommandMessage"
 import * as config from "../../config.json"
 
 export default (client: Client) => {
@@ -15,70 +14,27 @@ export default (client: Client) => {
   })
 }
 
-const parseCommand = (message: Message): CommandMessage => {
-  // Uhm ignore this                               V
-  const parts = message.content.trim().match(/(?:[^\s"]+|"[^"]*")+/g) || []
-
-  const commandMessage = CommandMessage.create({
-    name: parts[0]!.slice(1),
-    message,
-    args: [],
-    flags: {}
-  })
-
-  const parseFlag = (part: string) => {
-    const flagParts = part.slice(2).split("=")
-    const flagName = flagParts[0]
-    const flagValue = flagParts.slice(1).join("=").toLowerCase()
-
-    if (flagParts.length === 1) {
-      commandMessage.flags[flagName] = DEFAULT_FLAG_VALUE
-      return
-    }
-
-    if (!isNaN(parseFloat(flagValue))) {
-      commandMessage.flags[flagName] = parseFloat(flagValue)
-      return
-    }
-
-    if (["true", "false"].includes(flagValue)) {
-      return /true/.test(flagValue)
-    }
-
-    commandMessage.flags[flagName] = flagValue
-  }
-
-  for (const part of parts.slice(1)) {
-    const partIsInQuotes = /^".*"$/.test(part)
-    commandMessage.args.push(partIsInQuotes ? part.slice(1, -1) : part)
-
-    if (part.startsWith("--")) {
-      parseFlag(part)
-      continue
-    }
-  }
-
-  return commandMessage
-}
-
-const handleCommand = async (client: Client, message: Message): Promise<void> => {
+const handleCommand = async (client: Client, message: Message) => {
   const targetCommand = message.content.split(/\s+/)[0].slice(1)
   const command = CommandList.find((command) => command.name === targetCommand || command.settings?.aliases?.includes(targetCommand))
-  const sendError = (text: string) => message.reply(new BotMessage(MessagePrefix.ERROR, text).toString())
+  const sendError = (text: string) => message.reply(BotMessage.create(MessagePrefix.ERROR, text))
 
   if (!command) {
-    sendError("This command doesn't exist")
-    return
+    return sendError("This command doesn't exist")
   }
 
-  if (command.settings?.ownerOnly && !config.admins.includes(message.author.id)) {
-    sendError("Only bot creators can run this command")
-    return
+  if (!command.settings) {
+    return command.run(client, parseCommand(message))
   }
 
-  if (command.settings?.requiredPermissions && !message.member?.permissions.has(command.settings?.requiredPermissions)) {
-    sendError(`You don't have the next permission(-s): \`${command.settings?.requiredPermissions.join(", ")}\``)
-    return
+  const { ownerOnly, requiredPermissions } = command.settings
+
+  if (ownerOnly && !config.admins.includes(message.author.id)) {
+    return sendError("Only bot creators can run this command")
+  }
+
+  if (requiredPermissions && !message.member?.permissions.has(requiredPermissions)) {
+    return sendError(`You don't have the next permission(-s): \`${requiredPermissions.join(", ")}\``)
   }
 
   command.run(client, parseCommand(message))

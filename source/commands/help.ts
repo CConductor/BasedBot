@@ -1,8 +1,8 @@
 import type { Client } from "discord.js"
 
 import { Command, CommandList } from "../Command"
-import CommandMessage from "../modules/CommandMessage"
 import { Embed } from "../modules/Embed"
+import CommandMessage from "../modules/CommandMessage"
 
 class HelpCommand extends Command {
   constructor() {
