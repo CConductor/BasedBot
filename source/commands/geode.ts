@@ -4,6 +4,7 @@ import { BotMessage, MessagePrefix as Prefix } from "../modules/BotMessage"
 import { Embed } from "../modules/Embed"
 import { Command } from "../Command"
 import type { Geode, GeodeDrop } from "../modules/Geodes"
+
 import CommandMessage from "../modules/CommandMessage"
 import NumberFormat from "../modules/NumberFormat"
 
@@ -18,7 +19,7 @@ class GeodeCommand extends Command {
   public override async run(_: Client, commandMessage: CommandMessage) {
     if (commandMessage.hasFlag("list")) {
       const nameList = Geodes.getGeodeNames().join(" Geode, ")
-      const message = BotMessage.create(Prefix.INFO, `**Here's the available geode list:** ${nameList}`)
+      const message = BotMessage.create(Prefix.INFO, `Here's the available geode list: ${nameList}`)
 
       await commandMessage.reply(message)
       return
